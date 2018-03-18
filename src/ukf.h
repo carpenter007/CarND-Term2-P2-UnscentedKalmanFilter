@@ -64,8 +64,20 @@ public:
   ///* Augmented state dimension
   int n_aug_;
 
+  /* Int good nis */
+  int goodNisL;
+  /* Int all nis */
+  int allNisL;
+  /* Int good nis */
+  int goodNisR;
+  /* Int all nis */
+  int allNisR;
+
   ///* Sigma point spreading parameter
+
   double lambda_;
+  ///* previous timestamp
+  long long previous_timestamp_;
 
 
   /**
@@ -102,6 +114,17 @@ public:
    * @param meas_package The measurement at k+1
    */
   void UpdateRadar(MeasurementPackage meas_package);
+
+private:
+  ///* Augmented sigma point matrix
+  MatrixXd Xsig_aug_;
+  ///* set weights
+  VectorXd weights;
+
+
+  void GenerateAugmentedSigmaPoints(void);
+  void SigmaPointPrediction(double delta_t);
+  void PredictMeanAndCovariance(void);
 };
 
 #endif /* UKF_H */
