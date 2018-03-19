@@ -14,7 +14,7 @@ UKF::UKF() {
 
   is_initialized_ = false;
   // if this is false, laser measurements will be ignored (except during init)
-  use_laser_ = true;
+  use_laser_ = false;
 
   // if this is false, radar measurements will be ignored (except during init)
   use_radar_ = true;
@@ -26,10 +26,10 @@ UKF::UKF() {
   P_ = MatrixXd(5, 5);
 
   // Process noise standard deviation longitudinal acceleration in m/s^2
-  std_a_ = 30;
+  std_a_ = 1.5; /* Todo: correct this from 30 to? */
 
   // Process noise standard deviation yaw acceleration in rad/s^2
-  std_yawdd_ = 30; /* Todo: correct this */
+  std_yawdd_ = 0.5; /* Todo: correct this from 30 to? */
 
   // Laser measurement noise standard deviation position1 in m
   std_laspx_ = 0.15;
@@ -249,10 +249,10 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
 
     Prediction(dt);
 
-    if (meas_package.sensor_type_ == MeasurementPackage::RADAR)
+    if (meas_package.sensor_type_ == MeasurementPackage::RADAR && use_radar_)
     {
       UpdateRadar(meas_package);
-    } else if (meas_package.sensor_type_ == MeasurementPackage::LASER)
+    } else if (meas_package.sensor_type_ == MeasurementPackage::LASER && use_laser_)
     {
       UpdateLidar(meas_package);
     }
