@@ -326,9 +326,8 @@ void UKF::UpdateLidar(MeasurementPackage meas_package) {
   MatrixXd I = MatrixXd::Identity(x_size, x_size);
   P_ = (I - K * H) * P_;
  // Calculate NIS
-  if(y.transpose() * S.inverse() * y <= 7.185)
+  if((y.transpose() * S.inverse() * y )<= 7.185)
   {
-    std::cout << "Update Lidar - Good NIS" << std::endl;
     goodNisL++;
     allNisL++;
   }
@@ -336,7 +335,7 @@ void UKF::UpdateLidar(MeasurementPackage meas_package) {
   {
     allNisL++;
   }
-  std::cout << "NIS Lidar " << (double)(goodNisL / allNisL) << std::endl;
+  std::cout << "NIS Lidar: " << (100*goodNisL/allNisL) << "%" << std::endl;
 }
 
 /**
@@ -445,16 +444,16 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
     x_ = x_ + K * z_diff;
     P_ = P_ - K*S*K.transpose();
 
-    /*// Calculate NIS
-     if(y.transpose() * S.inverse() * y <= 7.185)
+    // Calculate NIS
+     if(z_diff.transpose() * S.inverse() * z_diff <= 7.185)
      {
-       goodNisL++;
-       allNisL++;
+       goodNisR++;
+       allNisR++;
      }
      else
      {
-       allNisL++;
+       allNisR++;
      }
-     std::cout << "NIS Lidar " << (goodNisL / allNisL) << std::endl;*/
+     std::cout << "NIS Radar: " << (100*goodNisR / allNisR) << "%" << std::endl;
 
 }
