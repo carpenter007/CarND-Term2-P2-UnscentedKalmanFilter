@@ -14,7 +14,7 @@ UKF::UKF() {
 
   is_initialized_ = false;
   // if this is false, laser measurements will be ignored (except during init)
-  use_laser_ = false;
+  use_laser_ = true;
 
   // if this is false, radar measurements will be ignored (except during init)
   use_radar_ = true;
@@ -301,12 +301,12 @@ void UKF::UpdateLidar(MeasurementPackage meas_package) {
   R = MatrixXd(2, 2);
 
   //measurement covariance matrix - laser
-  R << std_laspx_, 0, 0, std_laspy_;
+  R << std_laspx_*std_laspx_, 0, 0, std_laspy_*std_laspy_;
   MatrixXd H;
   H = MatrixXd(2, 5);
 
   //measurement matrix
-  H << 1, 0, 0, 0, 0, 1, 0, 0, 0, 0;
+  H << 1, 0, 0, 0, 0, 0, 1, 0, 0, 0;
   VectorXd z;
   z = VectorXd(4);
   z = meas_package.raw_measurements_;
