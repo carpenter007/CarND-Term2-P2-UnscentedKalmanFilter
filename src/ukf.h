@@ -11,7 +11,7 @@ using Eigen::MatrixXd;
 using Eigen::VectorXd;
 
 class UKF {
-public:
+ public:
 
   ///* initially set to false, set to true in first call of ProcessMeasurement
   bool is_initialized_;
@@ -53,7 +53,7 @@ public:
   double std_radphi_;
 
   ///* Radar measurement noise standard deviation radius change in m/s
-  double std_radrd_ ;
+  double std_radrd_;
 
   ///* Weights of sigma points
   VectorXd weights_;
@@ -78,7 +78,6 @@ public:
   double lambda_;
   ///* previous timestamp
   long long previous_timestamp_;
-
 
   /**
    * Constructor
@@ -115,12 +114,11 @@ public:
    */
   void UpdateRadar(MeasurementPackage meas_package);
 
-private:
+ private:
   ///* Augmented sigma point matrix
   MatrixXd Xsig_aug_;
   ///* set weights
   VectorXd weights;
-
 
   void GenerateAugmentedSigmaPoints(void);
   void SigmaPointPrediction(double delta_t);
